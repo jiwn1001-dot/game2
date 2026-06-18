@@ -1,0 +1,9 @@
+Can't find something here? Search in the "Text" category
+
+arrow
+-----------------------
+The font is Consolas written as two greater than signs (> >)
+
+button left / button right / button ready
+-----------------------
+The font is Consolas

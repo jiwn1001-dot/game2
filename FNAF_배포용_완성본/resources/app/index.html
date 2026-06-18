@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920, height=1080">
+  <title>FIVE NIGHT AT MOROCOPOLIA</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-container">
+    
+    <!-- ===== LOADING SCREEN ===== -->
+    <div id="loading-screen" class="screen active">
+      <div class="loading-text">Loading...</div>
+      <div class="loading-bar-container">
+        <div class="loading-bar" id="loading-bar"></div>
+      </div>
+    </div>
+
+    <!-- ===== MAIN MENU ===== -->
+    <div id="menu-screen" class="screen">
+      <img id="menu-bg" class="fullscreen-img" alt="">
+      <div id="menu-overlay">
+        <h1 id="menu-title">FIVE NIGHT AT MOROCOPOLIA</h1>
+        <div id="menu-subtitle">- REMAKE -</div>
+        <div id="menu-buttons">
+          <div class="menu-btn" id="btn-new-game">New Game</div>
+          <div class="menu-btn" id="btn-continue" style="display:none;">Continue</div>
+          <div class="menu-btn" id="btn-night6" style="display:none;">Night 6</div>
+          <div class="menu-btn" id="btn-custom-night" style="display:none;">Custom Night</div>
+          <div class="menu-btn" id="btn-exit">Exit</div>
+        </div>
+        <div id="menu-night-indicator"></div>
+      </div>
+      <div id="menu-stars"></div>
+    </div>
+
+    <!-- ===== CUSTOM NIGHT SETUP ===== -->
+    <div id="custom-night-screen" class="screen">
+      <div id="custom-night-panel">
+        <h2 id="custom-night-title">Custom Night</h2>
+        <div id="custom-night-profiles">
+          <div class="cn-profile">
+            <img class="cn-portrait" id="cn-img-anton" alt="Anton">
+            <div class="cn-name">안톤</div>
+            <div class="cn-ai-controls">
+              <button class="cn-minus" data-char="anton">◄</button>
+              <span class="cn-ai-value" id="cn-ai-anton">0</span>
+              <button class="cn-plus" data-char="anton">►</button>
+            </div>
+          </div>
+          <div class="cn-profile">
+            <img class="cn-portrait" id="cn-img-saengji" alt="Saengji">
+            <div class="cn-name">생지</div>
+            <div class="cn-ai-controls">
+              <button class="cn-minus" data-char="saengji">◄</button>
+              <span class="cn-ai-value" id="cn-ai-saengji">0</span>
+              <button class="cn-plus" data-char="saengji">►</button>
+            </div>
+          </div>
+          <div class="cn-profile">
+            <img class="cn-portrait" id="cn-img-ensi" alt="Ensi">
+            <div class="cn-name">엔시</div>
+            <div class="cn-ai-controls">
+              <button class="cn-minus" data-char="ensi">◄</button>
+              <span class="cn-ai-value" id="cn-ai-ensi">0</span>
+              <button class="cn-plus" data-char="ensi">►</button>
+            </div>
+          </div>
+          <div class="cn-profile">
+            <img class="cn-portrait" id="cn-img-koz" alt="Koz">
+            <div class="cn-name">코즈</div>
+            <div class="cn-ai-controls">
+              <button class="cn-minus" data-char="koz">◄</button>
+              <span class="cn-ai-value" id="cn-ai-koz">0</span>
+              <button class="cn-plus" data-char="koz">►</button>
+            </div>
+          </div>
+        </div>
+        <div id="custom-night-buttons">
+          <div class="menu-btn" id="btn-cn-start">Start</div>
+          <div class="menu-btn" id="btn-cn-back">Back</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== NIGHT INTRO ===== -->
+    <div id="night-intro" class="screen">
+      <div id="night-intro-text">
+        <div id="night-number">Night 1</div>
+        <div id="night-time">12:00 AM</div>
+      </div>
+    </div>
+
+    <!-- ===== GAME SCREEN ===== -->
+    <div id="game-screen" class="screen">
+      
+      <!-- Office View -->
+      <div id="office-view">
+        <img id="office-bg" class="fullscreen-img" alt="">
+        
+        <!-- Ugura (Golden Freddy) office overlay -->
+        <img id="ugura-office" class="fullscreen-img" style="display:none;z-index:2;" alt="">
+        
+        <!-- Door closed overlays (Animation Frames) -->
+        <img id="left-door-panel" class="door-anim-img left-door" style="display:none;z-index:3;" alt="">
+        <img id="right-door-panel" class="door-anim-img right-door" style="display:none;z-index:3;" alt="">
+        
+        <!-- Left side buttons -->
+        <div id="left-controls" class="door-controls">
+          <div class="ctrl-btn door-btn" id="btn-left-door">
+            <div class="ctrl-indicator" id="ind-left-door"></div>
+            <div class="ctrl-label">DOOR</div>
+          </div>
+          <div class="ctrl-btn light-btn" id="btn-left-light">
+            <div class="ctrl-indicator" id="ind-left-light"></div>
+            <div class="ctrl-label">LIGHT</div>
+          </div>
+        </div>
+        
+        <!-- Right side buttons -->
+        <div id="right-controls" class="door-controls">
+          <div class="ctrl-btn door-btn" id="btn-right-door">
+            <div class="ctrl-indicator" id="ind-right-door"></div>
+            <div class="ctrl-label">DOOR</div>
+          </div>
+          <div class="ctrl-btn light-btn" id="btn-right-light">
+            <div class="ctrl-indicator" id="ind-right-light"></div>
+            <div class="ctrl-label">LIGHT</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mute Call Button (FNAF 1 Style) -->
+      <div id="btn-mute-call" style="display:none;">MUTE CALL</div>
+
+      <!-- Monitor Flip Animation Overlay -->
+      <img id="monitor-anim" class="fullscreen-img" style="display:none;z-index:10;" alt="">
+
+      <!-- Camera View -->
+      <div id="camera-view" style="display:none;">
+        <img id="camera-feed" class="fullscreen-img" alt="">
+        <video id="foxy-run-video" class="fullscreen-img" style="display:none;" src="./코즈왼쪽복도 달림.mp4" preload="auto"></video>
+        
+        <!-- Camera static overlay -->
+        <canvas id="camera-static" width="1920" height="1080"></canvas>
+        
+        <!-- Camera name -->
+        <div id="camera-name">CAM 1A</div>
+        
+        <!-- Recording indicator -->
+        <div id="rec-indicator">
+          <span class="rec-dot"></span> REC
+        </div>
+
+        <!-- Camera map - 원작 FNAF 1 스크린샷 레이아웃 (연결선 제거) -->
+        <div id="camera-map">
+          <div id="map-panel">
+            <!-- 1A - Show Stage -->
+            <button class="cam-btn" id="cam-btn-1a" data-cam="cam1a" style="left:140px;top:5px;width:90px;">CAM 1A</button>
+            <!-- 5 - Backstage/준비실 -->
+            <button class="cam-btn" id="cam-btn-5"  data-cam="cam5"  style="left:5px;top:55px;width:80px;">CAM 5</button>
+            <!-- 1B - Dining Area -->
+            <button class="cam-btn" id="cam-btn-1b" data-cam="cam1b" style="left:130px;top:55px;width:90px;">CAM 1B</button>
+            <!-- 7 - Restrooms -->
+            <button class="cam-btn" id="cam-btn-7"  data-cam="cam7"  style="left:290px;top:55px;width:80px;">CAM 7</button>
+            <!-- 1C - Pirate Cove -->
+            <button class="cam-btn" id="cam-btn-1c" data-cam="cam1c" style="left:120px;top:115px;width:90px;">CAM 1C</button>
+            <!-- 3 - Supply Closet/창고 -->
+            <button class="cam-btn" id="cam-btn-3"  data-cam="cam3"  style="left:5px;top:170px;width:80px;">CAM 3</button>
+            <!-- 6 - Kitchen -->
+            <button class="cam-btn" id="cam-btn-6"  data-cam="cam6"  style="left:290px;top:170px;width:80px;">CAM 6</button>
+            <!-- 2A - West Hall -->
+            <button class="cam-btn" id="cam-btn-2a" data-cam="cam2a" style="left:50px;top:230px;width:90px;">CAM 2A</button>
+            <!-- 4A - East Hall -->
+            <button class="cam-btn" id="cam-btn-4a" data-cam="cam4a" style="left:240px;top:230px;width:90px;">CAM 4A</button>
+            <!-- 2B - W. Hall Corner -->
+            <button class="cam-btn" id="cam-btn-2b" data-cam="cam2b" style="left:50px;top:290px;width:90px;">CAM 2B</button>
+            <!-- YOU -->
+            <div style="position:absolute;left:155px;top:290px;width:60px;height:22px;background:#cc4;color:#000;font-size:13px;font-weight:bold;font-family:'VT323',monospace;text-align:center;line-height:22px;border:1px solid #aa2;">YOU</div>
+            <!-- 4B - E. Hall Corner -->
+            <button class="cam-btn" id="cam-btn-4b" data-cam="cam4b" style="left:240px;top:290px;width:90px;">CAM 4B</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Camera toggle bar -->
+      <div id="camera-toggle-bar">
+        <div id="camera-toggle-btn">
+          <div class="toggle-arrow">▲</div>
+        </div>
+      </div>
+
+      <!-- HUD -->
+      <div id="hud">
+        <div id="hud-time">
+          <span id="time-display">12 AM</span>
+          <span id="night-label">Night 1</span>
+        </div>
+        <div id="hud-power">
+          <div id="power-text">Power left: <span id="power-value">100</span>%</div>
+          <div id="usage-display">
+            Usage: <span id="usage-bars">
+              <span class="usage-bar active">▮</span>
+              <span class="usage-bar">▮</span>
+              <span class="usage-bar">▮</span>
+              <span class="usage-bar">▮</span>
+              <span class="usage-bar">▮</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== JUMPSCARE OVERLAY ===== -->
+    <div id="jumpscare-screen" class="screen">
+      <img id="jumpscare-img" class="fullscreen-img" alt="">
+    </div>
+
+    <!-- ===== POWER OUT SEQUENCE ===== -->
+    <div id="powerout-screen" class="screen">
+      <img id="powerout-img" class="fullscreen-img" alt="">
+    </div>
+
+    <!-- ===== GAME OVER ===== -->
+    <div id="gameover-screen" class="screen">
+      <img id="gameover-img" class="fullscreen-img" src="./게임오버.png" alt="">
+    </div>
+
+    <!-- ===== 6AM WIN ===== -->
+    <div id="win-screen" class="screen">
+      <div id="win-time">
+        <span class="win-hour">6</span> AM
+      </div>
+      <div id="win-cheer">✦ Survived! ✦</div>
+    </div>
+
+    <!-- ===== ENDING SCREEN ===== -->
+    <div id="ending-screen" class="screen">
+      <img id="ending-img" class="fullscreen-img" alt="">
+    </div>
+
+    <!-- Global static overlay -->
+    <canvas id="global-static" width="1920" height="1080"></canvas>
+
+    <!-- Audio elements for file-based audio -->
+    <audio id="audio-fan" loop preload="auto"><source src="./선풍기소리배경음.mp3" type="audio/mpeg"></audio>
+    <audio id="audio-kitchen-saengji" loop preload="auto"><source src="./생지 주방.mp3" type="audio/mpeg"></audio>
+    <audio id="audio-jumpscare-anton" preload="auto"><source src="./안톤 점프스케어 음성.ogg" type="audio/ogg"></audio>
+    <audio id="audio-jumpscare-saengji" preload="auto"><source src="./생지 점프스케어 음성.mp3" type="audio/mpeg"></audio>
+    <audio id="audio-jumpscare-ensi" preload="auto"><source src="./엔시 점프스케어 음성.mp3" type="audio/mpeg"></audio>
+    <audio id="audio-jumpscare-koz" preload="auto"><source src="./코즈 점프스케어 음성.mp3" type="audio/mpeg"></audio>
+    <audio id="audio-jumpscare-ugura" preload="auto"><source src="./우구라 점프스케어 음성.mp3" type="audio/mpeg"></audio>
+    <!-- Voice Messages -->
+    <audio id="audio-voice-1" src="./1일밤 음성녹음.m4a" preload="auto"></audio>
+    <audio id="audio-voice-2" src="./2일밤 음성녹음.m4a" preload="auto"></audio>
+    <audio id="audio-voice-3" src="./3일밤 음성녹음.m4a" preload="auto"></audio>
+    <audio id="audio-voice-4" src="./4일밤 음성녹음.m4a" preload="auto"></audio>
+    <audio id="audio-voice-5" src="./5일밤 음성녹음.m4a" preload="auto"></audio>
+    <audio id="audio-voice-6" src="./6일밤 음성녹음.m4a" preload="auto"></audio>
+    <audio id="audio-voice-7" src="./7일밤 음성녹음.m4a" preload="auto"></audio>
+
+  </div>
+  <script src="./game.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "name": "fnaf-remake",
+  "version": "1.0.0",
+  "description": "Five Nights at Freddy's 1 Remake - Custom Characters",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.0",
+    "electron-packager": "^17.1.2"
+  },
+  "build": {
+    "appId": "com.fnaf.remake",
+    "productName": "FNAF Remake",
+    "win": {
+      "target": "portable",
+      "icon": null
+    },
+    "files": [
+      "main.js",
+      "index.html",
+      "style.css",
+      "game.js",
+      "*.jpg",
+      "*.png",
+      "*.webp",
+      "*.mp3",
+      "*.ogg",
+      "*.m4a",
+      "*.mp4",
+      "모니터 들어올리는 애니메이션/*",
+      "왼쪽문 여닫이 애니메이션/*",
+      "오른쪽 문 여닫이 애니메이션/*"
+    ],
+    "portable": {
+      "artifactName": "FNAF_Remake.exe"
+    },
+    "asar": true
+  }
+}

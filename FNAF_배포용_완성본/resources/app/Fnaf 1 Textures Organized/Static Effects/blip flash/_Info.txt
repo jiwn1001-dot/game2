@@ -1,0 +1,39 @@
+The blip flash images are used in a specific order based on where it's used in the game
+
+The images are only exported once for file size optimizations
+
+Here are the orders that the images are used based on the circumstance. Note that the number corresponds to the name of the image file (1 = blip flash 1, 2 = blip flash 2, etc.)
+
+Cameras:
+1
+2
+9
+3
+4
+5
+6
+7
+8
+
+Night start / Death:
+1
+1
+1
+2
+9
+3
+4
+5
+6
+7
+8
+
+Main menu:
+10
+12
+13
+11
+15
+16
+14
+8

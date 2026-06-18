@@ -1,0 +1,3 @@
+full static
+-----------------------
+When used on the main menu, it has additive blending

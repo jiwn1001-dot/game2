@@ -1,0 +1,774 @@
+/* ===== RESET & BASE ===== */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  overflow: hidden;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+  font-family: 'VT323', monospace;
+}
+
+/* ===== GAME CONTAINER ===== */
+#game-container {
+  width: 1920px;
+  height: 1080px;
+  position: absolute;
+  overflow: hidden;
+  background: #000;
+  transform-origin: top left;
+}
+
+.screen {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: none;
+  z-index: 1;
+}
+
+.screen.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fullscreen-img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* ===== LOADING SCREEN ===== */
+#loading-screen {
+  background: #000;
+  flex-direction: column;
+  z-index: 100;
+}
+
+.loading-text {
+  color: #fff;
+  font-family: 'VT323', monospace;
+  font-size: 48px;
+  margin-bottom: 30px;
+}
+
+.loading-bar-container {
+  width: 400px;
+  height: 20px;
+  border: 2px solid #555;
+  background: #111;
+}
+
+.loading-bar {
+  height: 100%;
+  width: 0%;
+  background: #fff;
+  transition: width 0.3s;
+}
+
+/* ===== MAIN MENU ===== */
+#menu-screen {
+  background: #000;
+  z-index: 10;
+}
+
+#menu-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.55);
+  z-index: 2;
+}
+
+#menu-title {
+  font-family: 'Press Start 2P', monospace;
+  color: #fff;
+  font-size: 52px;
+  text-shadow: 0 0 20px rgba(255,50,50,0.8), 0 0 40px rgba(255,0,0,0.4);
+  margin-bottom: 10px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+#menu-subtitle {
+  font-family: 'Press Start 2P', monospace;
+  color: #aaa;
+  font-size: 22px;
+  margin-bottom: 80px;
+  letter-spacing: 8px;
+}
+
+#menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.menu-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 28px;
+  color: #888;
+  cursor: pointer;
+  padding: 10px 30px;
+  transition: color 0.2s, text-shadow 0.2s;
+  letter-spacing: 2px;
+}
+
+.menu-btn:hover {
+  color: #fff;
+  text-shadow: 0 0 15px rgba(255,255,255,0.5);
+}
+
+#menu-stars {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  z-index: 3;
+}
+
+.menu-star {
+  color: #ffeb3b; /* 황금빛 별 */
+  font-size: 36px;
+  text-shadow: 0 0 15px rgba(255, 235, 59, 0.8);
+}
+
+#menu-night-indicator {
+  font-family: 'VT323', monospace;
+  color: #666;
+  font-size: 28px;
+  margin-top: 40px;
+}
+
+/* ===== NIGHT INTRO ===== */
+#night-intro {
+  background: #000;
+  flex-direction: column;
+  z-index: 20;
+}
+
+#night-intro-text {
+  text-align: center;
+}
+
+#night-number {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 28px;
+  color: #fff;
+  animation: flicker 3s ease-in-out;
+}
+
+#night-time {
+  font-family: 'VT323', monospace;
+  font-size: 72px;
+  color: #fff;
+  margin-top: 30px;
+  animation: flicker 3s ease-in-out;
+}
+
+@keyframes flicker {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  12% { opacity: 0.3; }
+  14% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ===== GAME SCREEN ===== */
+#game-screen {
+  z-index: 5;
+}
+
+/* Office View */
+#office-view {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+
+/* Door Animation Images */
+.door-anim-img {
+  position: absolute;
+  top: 0;
+  width: 15.5%;       /* 빈틈을 덮기 위해 원본(14%)보다 살짝 넓게 설정 */
+  height: 100%;
+  z-index: 3;
+  object-fit: fill; /* 지정된 15.5% 영역 안에 꽉 차게 이미지 왜곡/조정 */
+}
+
+/* 왼쪽문, 오른쪽문 위치 고정 */
+.door-anim-img.left-door {
+  left: 0;
+}
+.door-anim-img.left-door.shifted {
+  left: -2%; /* 아무도 없을 때 불을 켜면 조금 더 왼쪽으로 보내서 빈틈을 잡음 */
+}
+.door-anim-img.left-door.shifted-anton {
+  left: 6%; /* 안톤이 문 앞에 있을 때 너무 우측으로 쏠리지 않도록 절반(6%)만 보정 */
+}
+
+.door-anim-img.right-door {
+  right: 0;
+}
+
+/* Door/Light Controls */
+.door-controls {
+  position: absolute;
+  top: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 5;
+}
+
+#left-controls { left: 1%; }
+#right-controls { right: 1%; }
+
+.ctrl-btn {
+  width: 90px;
+  height: 80px;
+  background: #2a2a2a;
+  border: 2px solid #444;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.1s;
+  position: relative;
+}
+
+.ctrl-btn:hover {
+  background: #3a3a3a;
+}
+
+.ctrl-btn:active {
+  background: #222;
+}
+
+.ctrl-indicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #333;
+  border: 2px solid #555;
+  margin-bottom: 6px;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+
+.ctrl-indicator.active-green {
+  background: #00ff44;
+  box-shadow: 0 0 12px #00ff44, 0 0 24px rgba(0,255,68,0.4);
+  border-color: #00cc33;
+}
+
+.ctrl-indicator.active-red {
+  background: #ff3333;
+  box-shadow: 0 0 12px #ff3333, 0 0 24px rgba(255,51,51,0.4);
+  border-color: #cc0000;
+}
+
+.ctrl-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #aaa;
+  letter-spacing: 1px;
+}
+
+/* ===== CAMERA VIEW ===== */
+#camera-view {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 6;
+}
+
+#camera-static {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.15;
+}
+
+#camera-name {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'VT323', monospace;
+  font-size: 36px;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255,255,255,0.5);
+  z-index: 5;
+  background: rgba(0,0,0,0.5);
+  padding: 5px 20px;
+}
+
+#rec-indicator {
+  position: absolute;
+  top: 30px;
+  left: 40px;
+  font-family: 'VT323', monospace;
+  font-size: 32px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 5;
+}
+
+.rec-dot {
+  width: 14px;
+  height: 14px;
+  background: #ff0000;
+  border-radius: 50%;
+  animation: rec-blink 1s infinite;
+}
+
+@keyframes rec-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Camera scanlines */
+#camera-view::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Camera vignette */
+#camera-view::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Camera Map */
+#camera-map {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+#map-panel {
+  position: relative;
+  width: 385px;
+  height: 325px;
+  background: rgba(0,8,18,0.88);
+  border: 1px solid rgba(80,140,200,0.25);
+  border-radius: 6px;
+  padding: 4px;
+  box-shadow: 0 0 20px rgba(0,50,100,0.2);
+}
+
+#map-lines {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+}
+
+.cam-btn {
+  position: absolute;
+  width: 100px;
+  height: 28px;
+  background: rgba(20,40,60,0.8);
+  border: 1px solid rgba(100,160,220,0.4);
+  color: rgba(150,200,255,0.8);
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 1;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cam-btn:hover {
+  background: rgba(40,80,120,0.8);
+  border-color: rgba(100,200,255,0.8);
+  color: #fff;
+}
+
+.cam-btn.active {
+  background: rgba(60,120,180,0.6);
+  border-color: rgba(100,200,255,1);
+  color: #fff;
+  box-shadow: 0 0 8px rgba(100,200,255,0.4);
+}
+
+/* Camera Toggle Bar */
+#camera-toggle-bar {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 8;
+  width: 200px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#camera-toggle-btn {
+  width: 180px;
+  height: 40px;
+  background: rgba(20,30,40,0.7);
+  border: 1px solid rgba(100,150,200,0.4);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#camera-toggle-btn:hover {
+  background: rgba(40,60,80,0.8);
+}
+
+.toggle-arrow {
+  color: rgba(150,200,255,0.8);
+  font-size: 24px;
+  transition: transform 0.3s;
+}
+
+.toggle-arrow.flipped {
+  transform: rotate(180deg);
+}
+
+/* ===== HUD ===== */
+#hud {
+  position: absolute;
+  z-index: 7;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#hud-time {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  text-align: right;
+}
+
+#time-display {
+  font-family: 'VT323', monospace;
+  font-size: 72px;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255,255,255,0.3);
+  display: block;
+}
+
+#night-label {
+  font-family: 'VT323', monospace;
+  font-size: 28px;
+  color: #aaa;
+  display: block;
+}
+
+#hud-power {
+  position: absolute;
+  bottom: 60px;
+  left: 40px;
+}
+
+#power-text {
+  font-family: 'VT323', monospace;
+  font-size: 32px;
+  color: #fff;
+}
+
+#usage-display {
+  font-family: 'VT323', monospace;
+  font-size: 32px;
+  color: #fff;
+  margin-top: 5px;
+}
+
+.usage-bar {
+  color: #333;
+  margin-right: 2px;
+  transition: color 0.2s;
+}
+
+.usage-bar.active {
+  color: #00dd00;
+}
+
+/* ===== JUMPSCARE ===== */
+#jumpscare-screen {
+  z-index: 50;
+  background: #000;
+}
+
+#jumpscare-screen.active {
+  display: block;
+}
+
+#jumpscare-screen img {
+  animation: jumpscare-shake 0.08s infinite;
+}
+
+@keyframes jumpscare-shake {
+  0% { transform: translate(0,0) scale(1.1); }
+  25% { transform: translate(-15px, 10px) scale(1.15); }
+  50% { transform: translate(10px, -15px) scale(1.1); }
+  75% { transform: translate(-10px, -5px) scale(1.12); }
+  100% { transform: translate(5px, 15px) scale(1.1); }
+}
+
+/* ===== POWER OUT ===== */
+#powerout-screen {
+  z-index: 30;
+  background: #000;
+}
+
+#powerout-screen.active {
+  display: block;
+}
+
+/* ===== MUTE CALL BUTTON ===== */
+#btn-mute-call {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  color: white;
+  font-size: 24px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid white;
+  padding: 5px 15px;
+  cursor: pointer;
+  z-index: 15;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+#btn-mute-call:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== GAME OVER ===== */
+#gameover-screen {
+  background: #000;
+  z-index: 60;
+}
+
+#gameover-screen.active {
+  display: block;
+}
+
+#gameover-img {
+  object-fit: contain;
+}
+
+/* ===== WIN SCREEN ===== */
+#win-screen {
+  background: #000;
+  flex-direction: column;
+  z-index: 55;
+}
+
+#win-time {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 96px;
+  color: #fff;
+  animation: win-fadein 2s forwards;
+  text-shadow: 0 0 30px rgba(255,255,200,0.5);
+}
+
+.win-hour {
+  font-size: 120px;
+}
+
+#win-cheer {
+  font-family: 'VT323', monospace;
+  font-size: 36px;
+  color: #ffcc00;
+  margin-top: 30px;
+  animation: win-fadein 2s 1s forwards;
+  opacity: 0;
+}
+
+@keyframes win-fadein {
+  0% { opacity: 0; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ===== GLOBAL STATIC OVERLAY ===== */
+#global-static {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+/* ===== UTILITY CLASSES ===== */
+.hidden { display: none !important; }
+
+.fade-in {
+  animation: fade-in 0.5s forwards;
+}
+
+.fade-out {
+  animation: fade-out 0.5s forwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* ===== CUSTOM NIGHT ===== */
+#custom-night-screen {
+  background: #000;
+  z-index: 15;
+}
+
+#custom-night-panel {
+  width: 900px;
+  text-align: center;
+}
+
+#custom-night-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 36px;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255,50,50,0.6);
+  margin-bottom: 50px;
+}
+
+#custom-night-profiles {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.cn-profile {
+  width: 180px;
+  background: rgba(30,30,40,0.8);
+  border: 2px solid #444;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+}
+
+.cn-portrait {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border: 2px solid #555;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  background: #111;
+}
+
+.cn-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: #ccc;
+  margin-bottom: 12px;
+}
+
+.cn-ai-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cn-minus, .cn-plus {
+  width: 32px;
+  height: 32px;
+  background: #333;
+  border: 1px solid #666;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: 'VT323', monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cn-minus:hover, .cn-plus:hover {
+  background: #555;
+}
+
+.cn-ai-value {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 20px;
+  color: #ff4444;
+  width: 40px;
+  text-align: center;
+}
+
+#custom-night-buttons {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}
+
+/* ===== ENDING SCREEN ===== */
+#ending-screen {
+  background: #000;
+  z-index: 65;
+}
+
+#ending-screen.active {
+  display: block;
+}
+
+#ending-img {
+  object-fit: contain;
+}
+

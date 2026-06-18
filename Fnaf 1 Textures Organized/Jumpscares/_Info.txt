@@ -1,0 +1,7 @@
+This identifies if the jumpscare animation is forward or looping
+
+freddy - Forward
+freddy power out - Forward
+bonnie - Looping
+chica - Looping
+foxy - Forward
